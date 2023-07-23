@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    stages{
+       stage("checkout the code from github by akshat") {
+           steps{
+               git url: 'https://github.com/akshu20791/DevOpsClassCodes'
+           }
+       }
+       stage("code compile by akshat"){
+           steps{
+               sh "mvn compile"
+               echo 'Compile is executed '
+           }
+       }
+       stage("code testing by akshat"){
+           steps{
+               echo 'testing is started '
+               sh "mvn test"
+               echo 'testing is executed '
+           }
+       }
+       stage("code qa by akshat"){
+           steps{
+               echo 'qa is started '
+               sh "mvn pmd:pmd"
+               echo 'qa is executed '
+               recordIssues(tools: [pmdParser()])  
+           }
+       }
+       stage("package"){
+           steps{
+               sh "mvn package"
+               echo 'package is executed '
+           }
+       }
+    }
+    
+}
